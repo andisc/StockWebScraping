@@ -4,6 +4,9 @@ from pathlib import Path
 
 
 def get_DB_Connection():
+    entries = Path('../CatalystRepository/')
+    for entry in entries.iterdir():
+        print(entry.name)
     return '../CatalystRepository/db.sqlite3'
 
 def InsertData(i_ticker, i_description, i_url, i_art_date):
