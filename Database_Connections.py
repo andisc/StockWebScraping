@@ -5,6 +5,7 @@ from pathlib import Path
 
 def get_DB_Connection():
     entries = Path('../CatalystRepository/')
+    print(entries)
     for entry in entries.iterdir():
         print(entry.name)
     return '../CatalystRepository/db.sqlite3'
