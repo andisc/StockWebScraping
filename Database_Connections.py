@@ -4,11 +4,9 @@ from pathlib import Path
 
 
 def get_DB_Connection():
-    entries = Path('../CatalystRepository/')
-    print(entries)
-    for entry in entries.iterdir():
-        print(entry.name)
-    return '../CatalystRepository/db.sqlite3'
+    path = '../CatalystRepository/db.sqlite3'
+    return path
+
 
 def InsertData(i_ticker, i_description, i_url, i_art_date):
 
@@ -21,8 +19,6 @@ def InsertData(i_ticker, i_description, i_url, i_art_date):
         try:
             sqliteConnection = sqlite3.connect(get_DB_Connection())
             cursor = sqliteConnection.cursor()
-            print("Successfully Connected to SQLite")
-
             
             #sqlite_insert_query = """INSERT INTO "teste" (id, nome,  descricao) VALUES (3, 'nome 3 xxyy', 'descricao nome')"""
             sqlite_insert_query = """INSERT INTO Stocks_Articles (article_text, article_link, article_date, creation_datetime, stock_ticker_id) VALUES ('""" + i_description + """', '""" + i_url + """', '""" + TODAY_DATE + """', '""" + NOW + """', '""" + i_ticker + """')"""
@@ -37,7 +33,6 @@ def InsertData(i_ticker, i_description, i_url, i_art_date):
         finally:
             if sqliteConnection:
                 sqliteConnection.close()
-                print("InsertData - The SQLite connection is closed")
     else:
         print("sai")
 
@@ -58,7 +53,6 @@ def select_ticker_name():
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-            print("select_ticker_name - The SQLite connection is closed")
 
 
 def verify_article_existance(i_ticker, i_description, i_today_date):
@@ -84,7 +78,6 @@ def verify_article_existance(i_ticker, i_description, i_today_date):
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-            print("verify_article_existance - The SQLite connection is closed")
 
 
 
@@ -97,7 +90,6 @@ def Insert_ProcessingControl():
     try:
         sqliteConnection = sqlite3.connect(get_DB_Connection())
         cursor = sqliteConnection.cursor()
-        print("Successfully Connected to SQLite")
 
         
         sqlite_insert_query = """INSERT INTO Processing_Control (initial_creation_datetime, final_creation_datetime) VALUES ('""" + NOW + """', 'NULL')"""
@@ -115,7 +107,7 @@ def Insert_ProcessingControl():
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-            print("The SQLite connection is closed")
+
 
 def Update_ProcessingControl(id_control):
     #database = r"C:\sqlite\db\pythonsqlite.db"
@@ -126,7 +118,6 @@ def Update_ProcessingControl(id_control):
     try:
         sqliteConnection = sqlite3.connect(get_DB_Connection())
         cursor = sqliteConnection.cursor()
-        print("Successfully Connected to SQLite")
 
         #sqlite_insert_query = """INSERT INTO Processing_Control (initial_creation_datetime, final_creation_datetime) VALUES ('""" + NOW + """', 'NULL')"""
         sqlite_insert_query = """UPDATE Processing_Control SET final_creation_datetime = '""" + NOW + """' WHERE id_control = '""" + str(id_control) + """'"""
@@ -142,7 +133,7 @@ def Update_ProcessingControl(id_control):
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-            print("The SQLite connection is closed")
+
 
 def select_max_Processing_Control():
    
@@ -162,7 +153,6 @@ def select_max_Processing_Control():
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-            print("The SQLite connection is closed")
 
 
 
@@ -173,7 +163,6 @@ def Insert_Logging(id_control, state, message):
     try:
         sqliteConnection = sqlite3.connect(get_DB_Connection())
         cursor = sqliteConnection.cursor()
-        print("Successfully Connected to SQLite")
 
         
         sqlite_insert_query = """INSERT INTO Logging (log_state, log_message, creation_datetime, id_control_id) VALUES ('""" + state + """', '""" + message + """', '""" + NOW + """', '""" + str(id_control) + """')"""
@@ -189,5 +178,4 @@ def Insert_Logging(id_control, state, message):
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-            print("The SQLite connection is closed")
 

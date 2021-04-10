@@ -1,7 +1,8 @@
 
 import importlib
 from Database_Connections import select_ticker_name, Insert_ProcessingControl, Update_ProcessingControl, Insert_Logging
-import threading 
+import threading
+import os
 
 
 def getdata(ticker, id_control):
@@ -10,12 +11,13 @@ def getdata(ticker, id_control):
         my_class = getattr(module, "main")(id_control)
         #instance = my_class()
     except:
-            print("Failed to get stock data from " + ticker)
-            Insert_Logging(id_control, 'Geral', "Failed to get stock data from " + ticker)
+        print("Failed to get stock data from " + ticker)
+        Insert_Logging(id_control, 'Geral', "Failed to get stock data from " + ticker)
 
 
 def main():
     print("Entra")
+    #os.chdir('/var/www/StockWebScraping')
 
     # Inicia o processamento com a data de inicio
     id_control = Insert_ProcessingControl()
