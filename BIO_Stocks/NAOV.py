@@ -11,16 +11,14 @@ from Database_Connections import InsertData, Insert_Logging
 
 def main(id_control):
     try:
-        url = 'https://ir.nanovibronix.com/press-releases' 
+        url = 'https://ir.nanovibronix.com/news-releases/' 
 
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
         result = requests.get(url, headers=headers)
         #print(result.content.decode())
         html_content = result.content.decode()
         soup = BeautifulSoup(html_content, 'html.parser')
-        #print(soup)
-        articles = soup.findAll('article', attrs={'class':'media'})
-        
+        articles = soup.findAll('ul', attrs={'class':'qmod-news-list'})
         # get first article
         FIRST_ARTICLE = articles[0]
 

@@ -35,7 +35,7 @@ def main(id_control):
         if (istoday == True):
             v_ticker = os.path.basename(__file__).replace(".py", "")
             v_url = article_desc.a.get('href')
-            v_description = article_desc.text.replace(v_article_date, '').lstrip().rstrip())
+            v_description = article_desc.text.replace(v_article_date, '').lstrip().rstrip()
             now = datetime.now()
             
             print("URL: " + v_url)
@@ -53,9 +53,6 @@ def main(id_control):
             print(error_message)
             Insert_Logging(id_control, 'Detail', error_message)
             pass
-
-    #InsertData()
-    
         
  
 if __name__ == "__main__":

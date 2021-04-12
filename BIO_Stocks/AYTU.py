@@ -11,7 +11,7 @@ from Database_Connections import InsertData, Insert_Logging
 
 def main(id_control):
     try:
-        url = 'http://irdirect.net/AYTU/press_releases?template=aytu&years_pagination=1&per_page=10' 
+        url = 'https://irdirect.net/AYTU/press_releases' 
 
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
         result = requests.get(url, headers=headers)
@@ -61,4 +61,4 @@ def main(id_control):
         
  
 if __name__ == "__main__":
-    main(1)
+    main()

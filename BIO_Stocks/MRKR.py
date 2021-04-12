@@ -19,13 +19,13 @@ def main(id_control):
         html_content = result.content.decode()
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
-        articles = soup.findAll('div', attrs={'class':'feed-item feed-post row has-thumbnail'})
+        articles = soup.findAll('article', attrs={'role':'article'})
         
         # get first article
         FIRST_ARTICLE = articles[0]
 
-        article_date = FIRST_ARTICLE.find('h6', attrs={'class':'post-date'})
-        article_desc = FIRST_ARTICLE.find('h2', attrs={'class':'feed-title'})
+        article_date = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--date-time'})
+        article_desc = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--headline'})
         
         v_article_date = article_date.text.lstrip().rstrip()
 

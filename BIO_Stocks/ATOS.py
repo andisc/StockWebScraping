@@ -34,11 +34,22 @@ def main(id_control):
         #if the process find any article with the today date
         istoday, v_art_date = validateday(v_article_date)
 
+        if (istoday == True):
+            v_ticker = os.path.basename(__file__).replace(".py", "")
+            v_url = FIRST_ARTICLE.a.get('href')
+            v_description = article_desc.text.lstrip().rstrip()
+            now = datetime.now()
+            
+            print("URL: " + v_url)
+            print("DESCRIPTION: " + v_description)
+            print("ARTICLE_DATE: " + str(now))
+
+            # Insert articles 
+            if "https://" in v_url:
+                InsertData(v_ticker, v_description, v_url, v_art_date)
+            else:
+                InsertData(v_ticker, v_description, url, v_art_date)
         
-        print("URL: " )
-        print("DESCRIPTION: " + article_desc.text.lstrip().rstrip())
-        now = datetime.now()
-        print("ARTICLE_DATE: " + str(now))
 
     except Exception:
             error_message = "Entrou na excepção ao tratar " + os.path.basename(__file__) + "..."
@@ -46,9 +57,6 @@ def main(id_control):
             Insert_Logging(id_control, 'Detail', error_message)
             pass
 
-    #InsertData()
-    
-        
  
 if __name__ == "__main__":
     main()

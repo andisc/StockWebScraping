@@ -19,15 +19,15 @@ def main(id_control):
         html_content = result.content.decode()
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
-        articles_panel = soup.find('div', attrs={'class':'builder-posts-wrap'})
-        articles = articles_panel.findAll('article', attrs={'class':'post'})
+        #articles_panel = soup.find('div', attrs={'class':'builder-posts-wrap'})
+        articles = soup.findAll('div', attrs={'class':'PRloop'})
         
         # get first article
         FIRST_ARTICLE = articles[0]
 
-        article_date = FIRST_ARTICLE.find('div', attrs={'class':'post-date-wrap post-date-inline'})
+        article_date = FIRST_ARTICLE.find('div', attrs={'class':'PRdate'})
         article_desc = FIRST_ARTICLE.find('h2', attrs={'class':'post-title entry-title'})
-        article_url = FIRST_ARTICLE.find('p')
+        article_url = FIRST_ARTICLE
         
         v_article_date = article_date.text.lstrip().rstrip()
 
@@ -57,9 +57,6 @@ def main(id_control):
             Insert_Logging(id_control, 'Detail', error_message)
             pass
 
-    #InsertData()
-    
-        
  
 if __name__ == "__main__":
     main()
