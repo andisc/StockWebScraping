@@ -1,5 +1,6 @@
 import sqlite3
 from datetime import date, datetime
+import pytz
 from pathlib import Path
 
 
@@ -11,7 +12,8 @@ def get_DB_Connection():
 def InsertData(i_ticker, i_description, i_url, i_art_date):
 
     TODAY_DATE = i_art_date
-    NOW = str(datetime.now())
+    #NOW = str(datetime.now())
+    NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     article_existance = verify_article_existance(i_ticker, i_description, TODAY_DATE)
 
@@ -85,7 +87,8 @@ def Insert_ProcessingControl():
     #database = r"C:\sqlite\db\pythonsqlite.db"
     #/Users/andregama/Documents/WebScraping/TESTE
 
-    NOW = str(datetime.now())
+    #NOW = str(datetime.now())
+    NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
         sqliteConnection = sqlite3.connect(get_DB_Connection())
@@ -113,7 +116,8 @@ def Update_ProcessingControl(id_control):
     #database = r"C:\sqlite\db\pythonsqlite.db"
     #/Users/andregama/Documents/WebScraping/TESTE
 
-    NOW = str(datetime.now())
+    #NOW = str(datetime.now())
+    NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
         sqliteConnection = sqlite3.connect(get_DB_Connection())
@@ -158,7 +162,8 @@ def select_max_Processing_Control():
 
 def Insert_Logging(id_control, state, message):
 
-    NOW = str(datetime.now())
+    #NOW = str(datetime.now())
+    NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
         sqliteConnection = sqlite3.connect(get_DB_Connection())
