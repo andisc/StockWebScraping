@@ -184,3 +184,30 @@ def Insert_Logging(id_control, state, message):
         if sqliteConnection:
             sqliteConnection.close()
 
+
+
+def Update_StockData(i_ticker, i_lastPrice, i_lastVolume):
+    #database = r"C:\sqlite\db\pythonsqlite.db"
+    #/Users/andregama/Documents/WebScraping/TESTE
+
+    #NOW = str(datetime.now())
+    NOW = str(datetime.now(pytz.timezone('US/Eastern')))
+
+    try:
+        sqliteConnection = sqlite3.connect(get_DB_Connection())
+        cursor = sqliteConnection.cursor()
+
+        #sqlite_insert_query = """INSERT INTO Processing_Control (initial_creation_datetime, final_creation_datetime) VALUES ('""" + NOW + """', 'NULL')"""
+        sqlite_insert_query = """UPDATE Stocks SET last_price = '""" + i_lastPrice + """', volume = '""" + i_lastVolume + """' WHERE stock_ticker = '""" + i_ticker + """'"""
+
+        count = cursor.execute(sqlite_insert_query)
+        sqliteConnection.commit()
+        print("Record updated successfully into Stocks table ", cursor.rowcount)
+        cursor.close()
+
+
+    except sqlite3.Error as error:
+        print("Failed to update data into Stocks table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
