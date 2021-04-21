@@ -37,6 +37,12 @@ def getPreMarketStockValue(i_stock_ticker):
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
 
+        quote_header_panel = soup.find('div', attrs={'id':'quote-header-info'})
+
+        lastPrice_panel = quote_header_panel.find('span', attrs={'data-reactid':'32'})
+        #print(lastPrice_panel.text)
+        lastPrice = lastPrice_panel.text
+
         quote_summary_panel = soup.find('div', attrs={'id':'quote-summary'})
 
         # get tag of stock name
@@ -46,8 +52,8 @@ def getPreMarketStockValue(i_stock_ticker):
         rows = table_body.find_all('tr')
 
         #last price
-        FIRST_ROW_columns = rows[0].find_all('td')
-        lastPrice = FIRST_ROW_columns[1].text
+        #FIRST_ROW_columns = rows[0].find_all('td')
+        #lastPrice = FIRST_ROW_columns[1].text
 
         #last volume
         FIRST_ROW_columns = rows[6].find_all('td')
