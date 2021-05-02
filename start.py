@@ -17,7 +17,9 @@ def getdata(ticker, id_control):
 
 def main():
     print("Entra")
-    #os.chdir('/var/www/StockWebScraping')
+    os.system("pkill -f 'start.py'")
+    os.chdir('/var/www/StockWebScraping')
+
 
     # Inicia o processamento com a data de inicio
     id_control = Insert_ProcessingControl()
