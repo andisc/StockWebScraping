@@ -17,8 +17,7 @@ def getdata(ticker, id_control):
 
 def main():
     print("Entra")
-    os.system("pkill -f 'start.py'")
-    os.chdir('/var/www/StockWebScraping')
+    os.chdir('/webapps/StockWebScraping')
 
 
     # Inicia o processamento com a data de inicio
@@ -49,6 +48,8 @@ def main():
 
     # Fecha o processamento com a data de conclusão
     Update_ProcessingControl(id_control)
+
+    os.system("pkill -f 'start.py'")
 
 
 #module = importlib.import_module('BIO_Stocks.template_table')

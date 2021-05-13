@@ -2,8 +2,9 @@ import requests
 from lxml import html
 from bs4 import BeautifulSoup
 import re
+from Database_Connections import Insert_PreMarketData, Update_PreMarketData
 
-def getPreMarketStockValue(i_stock_ticker):
+def getPreMarketStockValue(i_stock_ticker, var_type):
     
     try:
         url = 'https://finance.yahoo.com/quote/' + i_stock_ticker 
@@ -20,31 +21,43 @@ def getPreMarketStockValue(i_stock_ticker):
         # get tag of stock name
         stock_name = headerInfo_panel.find('h1', attrs={'data-reactid':'7'})
 
-        #get tag of last price stock
-        stock_last_price = headerInfo_panel.find('span', attrs={'data-reactid':'32'})
+        
 
         stock_value_panel = headerInfo_panel.find('div', attrs={'data-reactid':'29'})
 
         premarket_value_panel = stock_value_panel.find('p', attrs={'data-reactid':'36'})
 
-        premarket_grow = premarket_value_panel.find('span', attrs={'data-reactid':'39'})
 
-        print(stock_name.text.split(' (')[0])
-        print(stock_last_price.text)
+        
+        #caso exista a secção do pre market 
+        if (premarket_value_panel != None):
 
-        result1 = premarket_grow.text.split(' ')[0]
-        print(result1)
+            #get tag of last price stock
+            stock_last_price = headerInfo_panel.find('span', attrs={'data-reactid':'37'}).text
 
-        result2 = premarket_grow.text.split(' ')[1]
-        print(result2.replace("(", "").replace(")", ""))
+            premarket_grow = premarket_value_panel.find('span', attrs={'data-reactid':'39'})
 
-        #businessSummary = businessSummary_panel.find('p')
-#
-        #print(businessSummary.text)
-#
-        #obj = Stocks.objects.get(stock_ticker=i_stock_ticker)
-        #obj.businessSummary = businessSummary.text.replace("'", "''")
-        #obj.save()
+            stock_name_desc = stock_name.text.split(' (')[0]
+
+            growPrice = premarket_grow.text.split(' ')[0][1:]
+            growPriceSinal = premarket_grow.text.split(' ')[0][0:1]
+
+            percentage = premarket_grow.text.split(' ')[1]
+            growPricePercentage = percentage.replace("(", "").replace(")", "")[1:-1]
+            
+            #print(stock_name_desc)
+            #print(stock_last_price)
+            #print(growPrice)
+            #print(growPriceSinal)
+            #print(growPricePercentage)
+
+            #if grow is different than zero
+            if (float(growPrice) != 0.0 and float(growPricePercentage) != 0.0):
+
+                if (var_type == 'INSERT_PREMARKET'):
+                    Insert_PreMarketData(i_stock_ticker, stock_name_desc, stock_last_price, growPrice, growPriceSinal,  growPricePercentage)
+                else:
+                    Update_PreMarketData(i_stock_ticker, stock_name_desc, stock_last_price, growPrice, growPriceSinal, growPricePercentage)
 
 
     except Exception:
@@ -53,7 +66,7 @@ def getPreMarketStockValue(i_stock_ticker):
 
 
 def main():
-    getPreMarketStockValue('gnpx')
+    getPreMarketStockValue('ALXN', 'INSERT_PREMARKET')
 
 if __name__ == "__main__":
     main()

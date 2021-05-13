@@ -6,6 +6,7 @@ from pathlib import Path
 
 def get_DB_Connection():
     path = '../CatalystRepository/db.sqlite3'
+    #path = '../CatalystRepository/CatalystRepository/db.sqlite3'
     return path
 
 
@@ -211,3 +212,103 @@ def Update_StockData(i_ticker, i_lastPrice, i_lastVolume):
     finally:
         if sqliteConnection:
             sqliteConnection.close()
+
+
+def select_max_PreMarketData():
+       
+    try:
+        sqliteConnection = sqlite3.connect(get_DB_Connection())
+        cursor = sqliteConnection.cursor()
+        cursor.execute("SELECT MAX(updated_datetime) FROM PreMarketStocks")
+
+        rows = cursor.fetchone()
+        max_updated_datetime = rows[0]
+        cursor.close()
+        
+        return max_updated_datetime
+
+    except sqlite3.Error as error:
+        print("Failed to get data from PreMarketStocks", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+
+
+def delete_PreMarketData():
+       
+    try:
+        sqliteConnection = sqlite3.connect(get_DB_Connection())
+        cursor = sqliteConnection.cursor()
+
+        
+        sqlite_delete_query = "DELETE FROM PreMarketStocks"
+
+        count = cursor.execute(sqlite_delete_query)
+        sqliteConnection.commit()
+        print("Record deleted successfully into PreMarketStocks table ", cursor.rowcount)
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Failed to get data from PreMarketStocks", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+
+
+def Insert_PreMarketData(i_ticker, i_tickerName, i_Price, i_growPrice, i_growPriceSinal, i_growPricePercentage):
+    
+    #NOW = str(datetime.now())
+    NOW = str(datetime.now(pytz.timezone('US/Eastern')))
+
+    try:
+        sqliteConnection = sqlite3.connect(get_DB_Connection())
+        cursor = sqliteConnection.cursor()
+
+        
+        sqlite_insert_query = """INSERT INTO PreMarketStocks (stock_ticker, stock_name, last_price, grow_price, grow_price_sinal, grow_percentage, active, updated_datetime )  VALUES ('""" + i_ticker + """', '""" + i_tickerName + """', '""" + i_Price + """', '""" + i_growPrice + """', '""" + i_growPriceSinal + """', '""" + i_growPricePercentage + """', '1', '""" + NOW + """')"""
+
+        count = cursor.execute(sqlite_insert_query)
+        sqliteConnection.commit()
+        print("Record inserted successfully into PreMarketStocks table ", cursor.rowcount)
+        cursor.close()
+
+
+    except sqlite3.Error as error:
+        print("Failed to insert data into PreMarketStocks table", error)
+
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+
+
+
+def Update_PreMarketData(i_ticker, i_tickerName, i_Price, i_growPrice, i_growPriceSinal, i_growPricePercentage):
+
+    #NOW = str(datetime.now())
+    NOW = str(datetime.now(pytz.timezone('US/Eastern')))
+
+    try:
+        sqliteConnection = sqlite3.connect(get_DB_Connection())
+        cursor = sqliteConnection.cursor()
+
+        #sqlite_insert_query = """INSERT INTO Processing_Control (initial_creation_datetime, final_creation_datetime) VALUES ('""" + NOW + """', 'NULL')"""
+        sqlite_insert_query = """UPDATE PreMarketStocks SET last_price = '""" + i_Price + """', grow_price = '""" + i_growPrice + """', grow_price_sinal = '""" + i_growPriceSinal + """', grow_percentage = '""" + i_growPricePercentage + """', updated_datetime = '""" + NOW + """' WHERE stock_ticker = '""" + i_ticker + """'"""
+
+        count = cursor.execute(sqlite_insert_query)
+        sqliteConnection.commit()
+        print("Record updated successfully into PreMarketStocks table ", cursor.rowcount)
+        cursor.close()
+
+        if sqliteConnection:
+            sqliteConnection.close()
+        #if no one row was affected the systems will go insert a new record
+        if(cursor.rowcount == 0):
+            Insert_PreMarketData(i_ticker, i_tickerName, i_Price, i_growPrice, i_growPriceSinal, i_growPricePercentage)
+
+
+    except sqlite3.Error as error:
+        print("Failed to update data into PreMarketStocks table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+
