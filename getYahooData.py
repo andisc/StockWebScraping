@@ -66,7 +66,7 @@ def getPreMarketStockValue(i_stock_ticker, var_type):
 
 
 def main():
-    getPreMarketStockValue('ALXN', 'INSERT_PREMARKET')
+    getPreMarketStockValue('ALXN', 'UPDATE_PREMARKET')
 
 if __name__ == "__main__":
     main()

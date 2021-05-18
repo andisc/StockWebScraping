@@ -19,15 +19,15 @@ def main(id_control):
         html_content = result.content.decode()
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
-        articles = soup.findAll('article', attrs={'role':'article'})
-        
-        # get first article
-        FIRST_ARTICLE = articles[0]
+        table = soup.find('table', attrs={'class':'ndq-news-long'})
+        #print(table)
+        table_body = table.find('tbody')
+        rows = table_body.find_all('tr')
 
-        article_date = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--date-time'})
-        article_desc = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--headline'})
         
-        v_article_date = article_date.text.lstrip().rstrip()
+        FIRST_ROW_columns = rows[0].find_all('td')
+        v_article_date = FIRST_ROW_columns[0].find('div', attrs={'class':'nir-widget--field nir-widget--news--date-time'}).text.lstrip().rstrip()
+        article_desc = FIRST_ROW_columns[0].find('div', attrs={'class':'nir-widget--field nir-widget--news--headline'})
 
         #if the process find any article with the today date
         istoday, v_art_date = validateday(v_article_date)

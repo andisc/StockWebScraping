@@ -26,12 +26,13 @@ def main():
     #rows = [('ABEO', 'ABEO Therapeutics Inc. Common Stock', 2.36, 'NULL', 'NASDAQ', 'Health Care', 'Major Pharmaceuticals', None)]
     #('ACAD', 'ACAD Therapeutics Inc. Common Stock', 2.36, 'NULL', 'NASDAQ', 'Health Care', 'Major Pharmaceuticals', None)]
     
-    max_date_PreMarket = select_max_PreMarketData()[0:26]
+    max_date_PreMarket = select_max_PreMarketData()
 
 
     var_type = 'INSERT_PREMARKET'
 
     if(max_date_PreMarket != None):
+        max_date_PreMarket = str(max_date_PreMarket)[0:26]
         max_date = datetime.strptime(max_date_PreMarket, '%Y-%m-%d %H:%M:%S.%f').date()
         var_type = 'UPDATE_PREMARKET'
 

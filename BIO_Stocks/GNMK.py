@@ -20,23 +20,26 @@ def main(id_control):
         html_content = result.content.decode()
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
-
-        table = soup.find('table', attrs={'class':'nirtable views-table views-view-table cols-3 striped-odd collapse-table'})
-        #print(table)
-        table_body = table.find('tbody')
-        rows = table_body.find_all('tr')
-
+        articles_all = soup.find('div', attrs={'class':'nir-widget--list'})
+        articles = soup.findAll('article')
         
-        FIRST_ROW_columns = rows[0].find_all('td')
-        v_article_date = FIRST_ROW_columns[0].text.replace('Toggle Summary', '').lstrip().rstrip()
-        article_desc = FIRST_ROW_columns[1]
+        # get first article
+        FIRST_ARTICLE = articles[0]
+
+        article_date = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--date-time'})
+        
+        article_desc = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field'})
+        article_url = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--read-more'})
+        
+        v_article_date = article_date.text.lstrip().rstrip()
 
         #if the process find any article with the today date
         istoday, v_art_date = validateday(v_article_date)
+        
         if (istoday == True):
             v_ticker = os.path.basename(__file__).replace(".py", "")
-            v_url = article_desc.a.get('href')
-            v_description = article_desc.text.lstrip().rstrip()
+            v_url = article_url.a.get('href')
+            v_description = article_desc.a.text.lstrip().rstrip()
             now = datetime.now()
             
             print("URL: " + v_url)

@@ -19,15 +19,15 @@ def main(id_control):
         html_content = result.content.decode()
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
-        articles_panel = soup.find('div', attrs={'class':'nir-widget--list press-releases'})
-        articles = articles_panel.findAll('li')
+        articles_panel = soup.find('div', attrs={'class':'nir-widget--list'})
+        articles = articles_panel.findAll('div', attrs={'class':'row'})
         
         # get first article
         FIRST_ARTICLE = articles[0]
 
         article_date_day = FIRST_ARTICLE.find('span', attrs={'class':'date'}).text.lstrip().rstrip()
         article_date = (article_date_day + ' ' + str(datetime.now().year))
-        article_desc = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--headline'})
+        article_desc = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--news--headline'})
         
         v_article_date = article_date
 

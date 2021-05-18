@@ -19,13 +19,14 @@ def main(id_control):
         html_content = result.content.decode()
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
-        articles = soup.findAll('article', attrs={'role':'article'})
+        articlesAll = soup.find('div', attrs={'class':'nir-widget--list'})
+        articles = articlesAll.findAll('div', attrs={'class':'mb-4'})
         
         # get first article
         FIRST_ARTICLE = articles[0]
 
-        article_date = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--date-time'})
-        article_desc = FIRST_ARTICLE.find('div', attrs={'class':'nir-widget--field nir-widget--news--headline'})
+        article_date = FIRST_ARTICLE.find('div', attrs={'class':'release-date-bold'})
+        article_desc = FIRST_ARTICLE.find('h5', attrs={'class':'font-weight-bold'})
         
         v_article_date = article_date.text.lstrip().rstrip()
 

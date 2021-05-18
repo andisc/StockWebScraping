@@ -21,7 +21,7 @@ def main(id_control):
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
 
-        table = soup.find('table', attrs={'class':'tabcon nirtable'})
+        table = soup.find('table', attrs={'class':'nirtable collapse-table clearfix'})
         #print(table)
         table_body = table.find('tbody')
         rows = table_body.find_all('tr')
@@ -30,10 +30,11 @@ def main(id_control):
         FIRST_ROW_columns = rows[0].find_all('td')
         v_article_date = FIRST_ROW_columns[0].text.lstrip().rstrip()
         all_a = FIRST_ROW_columns[1].findAll('a')
-        article_desc = all_a[1]
+        article_desc = all_a[0]
 
         #if the process find any article with the today date
         istoday, v_art_date = validateday(v_article_date)
+        
         if (istoday == True):
             v_ticker = os.path.basename(__file__).replace(".py", "")
             v_url = article_desc.get('href')
