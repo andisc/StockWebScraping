@@ -17,15 +17,15 @@ def value_to_float(x):
         return x
     if 'K' in x:
         if len(x) > 1:
-            return float(x.replace('K', '')) * 1000
-        return 1000.0
+            return int(float(x.replace('K', '')) * 1000)
+        return 1000
     if 'M' in x:
         if len(x) > 1:
-            return float(x.replace('M', '')) * 1000000
-        return 1000000.0
+            return int(float(x.replace('M', '')) * 1000000)
+        return 1000000
     if 'B' in x:
-        return float(x.replace('B', '')) * 1000000000
-    return 0.0
+        return int(float(x.replace('B', '')) * 1000000000)
+    return 0
 
 def main():
     os.chdir('/var/www/StockWebScraping')
@@ -108,6 +108,7 @@ def getVolume_marketwatch(i_stock_ticker):
         articles_all = articles_volume.findAll('span', attrs={'class':'primary'})
         volume = articles_all[0].text.replace("Volume: ", "")
 
+        return value_to_float(volume)
         #print(value_to_float(volume))
 
     except Exception:
@@ -121,7 +122,6 @@ def getPreMarketStockValue_marketwatch(i_stock_ticker):
         url = 'https://www.marketwatch.com/investing/stock/'+i_stock_ticker
 
         sess = requests.Session()
-        sess.head('https://www.skroutz.gr')
 
         headers = {
             'authority': 'www.skroutz.gr',
@@ -157,7 +157,10 @@ def getPreMarketStockValue_marketwatch(i_stock_ticker):
 
         lastVolume = getVolume_marketwatch(i_stock_ticker)
 
-        Update_StockData(i_stock_ticker, lastPrice, lastVolume)
+        #print(str(lastPrice))
+        #print(str(lastVolume))
+
+        Update_StockData(i_stock_ticker, str(lastPrice), str(lastVolume))
 
     except Exception:
         print("Entrou na excepção getPreMarketStockValue para o " + i_stock_ticker + " ...")
