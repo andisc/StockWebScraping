@@ -5,8 +5,8 @@ from pathlib import Path
 
 
 def get_DB_Connection():
-    path = '../CatalystRepository/db.sqlite3'
-    #path = '../CatalystRepository/CatalystRepository/db.sqlite3'
+    #path = '../CatalystRepository/db.sqlite3'
+    path = '../CatalystRepository/CatalystRepository/db.sqlite3'
     return path
 
 
