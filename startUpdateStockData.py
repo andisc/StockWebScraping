@@ -28,7 +28,7 @@ def value_to_float(x):
     return 0
 
 def main():
-    os.chdir('/var/www/StockWebScraping')
+    os.chdir('/webapps/StockWebScraping')
 
     thread_list = []
 

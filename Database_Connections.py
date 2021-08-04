@@ -198,10 +198,9 @@ def Update_StockData(i_ticker, i_lastPrice, i_lastVolume):
         sqliteConnection = sqlite3.connect(get_DB_Connection())
         cursor = sqliteConnection.cursor()
 
-        #sqlite_insert_query = """INSERT INTO Processing_Control (initial_creation_datetime, final_creation_datetime) VALUES ('""" + NOW + """', 'NULL')"""
-        sqlite_insert_query = """UPDATE Stocks SET last_price = '""" + i_lastPrice + """', volume = '""" + i_lastVolume + """' WHERE stock_ticker = '""" + i_ticker + """'"""
+        sqlite_update_query = """UPDATE Stocks SET last_price = '""" + i_lastPrice + """', volume = '""" + i_lastVolume + """' WHERE stock_ticker = '""" + i_ticker + """'"""
 
-        count = cursor.execute(sqlite_insert_query)
+        count = cursor.execute(sqlite_update_query)
         sqliteConnection.commit()
         print("Record updated successfully into Stocks table ", cursor.rowcount)
         cursor.close()
