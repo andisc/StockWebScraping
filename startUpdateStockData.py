@@ -160,7 +160,7 @@ def getPreMarketStockValue_marketwatch(i_stock_ticker):
         #print(str(lastPrice))
         #print(str(lastVolume))
 
-        Update_StockData(i_stock_ticker, str(lastPrice), str(lastVolume))
+        Update_StockData(i_stock_ticker, str(lastPrice).replace(",", ""), str(lastVolume))
 
     except Exception:
         print("Entrou na excepção getPreMarketStockValue para o " + i_stock_ticker + " ...")
