@@ -99,20 +99,19 @@ def getVolume_marketwatch(i_stock_ticker):
         url = 'https://www.marketwatch.com/investing/stock/'+i_stock_ticker
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
         result = requests.get(url, headers=headers)
-        #print(result.content.decode())
+        
         html_content = result.content.decode()
         soup = BeautifulSoup(html_content, 'html.parser')
-        #print(soup)
+        
         articles_volume = soup.find('div', attrs={'class':'column column--full supportive-data'})
 
         articles_all = articles_volume.findAll('span', attrs={'class':'primary'})
         volume = articles_all[0].text.replace("Volume: ", "")
 
         return value_to_float(volume)
-        #print(value_to_float(volume))
 
     except Exception:
-        print("Entrou na excepção getPreMarketStockValue para o " + i_stock_ticker + " ...")
+        print("Entrou na excepção getVolume_marketwatch para o " + i_stock_ticker + " ...")
         pass
 
 
@@ -121,46 +120,53 @@ def getPreMarketStockValue_marketwatch(i_stock_ticker):
     try:
         url = 'https://www.marketwatch.com/investing/stock/'+i_stock_ticker
 
-        sess = requests.Session()
+#        sess = requests.Session()
+#
+#        headers = {
+#            'authority': 'www.skroutz.gr',
+#            'cache-control': 'max-age=0',
+#            'sec-ch-ua': '"Google Chrome"; v="83"',
+#            'sec-ch-ua-mobile': '?0',
+#            'upgrade-insecure-requests': '1',
+#            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+#            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+#            'sec-fetch-site': 'none',
+#            'sec-fetch-mode': 'navigate',
+#            'sec-fetch-user': '?1',
+#            'sec-fetch-dest': 'document',
+#            'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+#            'if-none-match': 'W/"e6fb8187391e99a90270c2351f9d17cd"'
+#        }
+#
+#        params = (('o', '\u039C\u03C0\u03BF\u03C5\u03C1\u03BD\u03BF\u03CD\u03B6\u03B9 Guy Laroche Linda Red'),)
+#
+#        response = sess.get(url, headers=headers, params=params)
+#        tree = html.fromstring(response.content)
+#        # hrefs = tree.xpath('//a[@class="js-product-link content-placeholder"]/@href')
+#        # ids = [x.split('/')[-1] for x in hrefs]
+#        # headers2 = copy.deepcopy(headers)
+#        # headers2['content-type'] = 'application/json'
+#        # ret = sess.post('https://www.skroutz.gr/personalization/product_prices.json', data=json.dumps({'product_ids': ids}), headers=headers2)
+#        details = tree.xpath('//script[@type="application/ld+json"]')[0]
+#        # details.text_content() contains the base64 encoded elements within HTML comments
+#        details_b64 = details.text_content()[4:-3] # strip off the html comments
+#        #print(details_b64)
+#        price = json.loads(details_b64)
+#        lastPrice = price["price"]
 
-        headers = {
-            'authority': 'www.skroutz.gr',
-            'cache-control': 'max-age=0',
-            'sec-ch-ua': '"Google Chrome"; v="83"',
-            'sec-ch-ua-mobile': '?0',
-            'upgrade-insecure-requests': '1',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'sec-fetch-site': 'none',
-            'sec-fetch-mode': 'navigate',
-            'sec-fetch-user': '?1',
-            'sec-fetch-dest': 'document',
-            'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-            'if-none-match': 'W/"e6fb8187391e99a90270c2351f9d17cd"'
-        }
+        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+        result = requests.get(url, headers=headers)
+        html_content = result.content.decode()
+        soup = BeautifulSoup(html_content, 'html.parser')
 
-        params = (('o', '\u039C\u03C0\u03BF\u03C5\u03C1\u03BD\u03BF\u03CD\u03B6\u03B9 Guy Laroche Linda Red'),)
+        articles = soup.findAll('h2', attrs={'class':'intraday__price'})
 
-        response = sess.get(url, headers=headers, params=params)
-        tree = html.fromstring(response.content)
-        # hrefs = tree.xpath('//a[@class="js-product-link content-placeholder"]/@href')
-        # ids = [x.split('/')[-1] for x in hrefs]
-        # headers2 = copy.deepcopy(headers)
-        # headers2['content-type'] = 'application/json'
-        # ret = sess.post('https://www.skroutz.gr/personalization/product_prices.json', data=json.dumps({'product_ids': ids}), headers=headers2)
-        details = tree.xpath('//script[@type="application/ld+json"]')[0]
-        # details.text_content() contains the base64 encoded elements within HTML comments
-        details_b64 = details.text_content()[4:-3] # strip off the html comments
-        #print(details_b64)
-        price = json.loads(details_b64)
-        lastPrice = price["price"]
+        FIRST_ARTICLE = articles[0]
 
+        lastPrice = FIRST_ARTICLE.find('bg-quote', attrs={'class':'value'})
         lastVolume = getVolume_marketwatch(i_stock_ticker)
 
-        #print(str(lastPrice))
-        #print(str(lastVolume))
-
-        Update_StockData(i_stock_ticker, str(lastPrice).replace(",", ""), str(lastVolume))
+        Update_StockData(i_stock_ticker, str(lastPrice.text).replace(",", ""), str(lastVolume))
 
     except Exception:
         print("Entrou na excepção getPreMarketStockValue para o " + i_stock_ticker + " ...")

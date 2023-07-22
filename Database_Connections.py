@@ -52,7 +52,7 @@ def select_ticker_name():
         return rows
 
     except sqlite3.Error as error:
-        print("Failed to insert data into sqlite table", error)
+        print("Failed to retrieve data from sqlite table", error)
     finally:
         if sqliteConnection:
             sqliteConnection.close()
