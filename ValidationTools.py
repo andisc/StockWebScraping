@@ -57,7 +57,28 @@ def validateday(day):
     d11 = today.strftime("%B %-d" + suffix(datetime.now().day) +  ", %Y")
     #print("d11 =", d11)
 
-    if(d2 in day or d3 in day or d4 in day or d5 in day or d6 in day or  d7 in day or d8 in day or d9 in day or d10 in day or d11 in day):
+    # mm dd yyyyy
+    d12 = today.strftime("%d %b / %y")
+    #print("d12 =", d12)
+
+    # mm dd, yyyyy
+    d13 = today.strftime("%b %-d, %Y")
+    #print("d13 =", d13)
+
+    # yyyyy.mm.dd
+    d14 = today.strftime("%Y.%m.%d")
+    #print("d14 =", d14)
+
+    # mm dd, yyyyy
+    d15 = today.strftime("%b %d, %Y")
+    #print("d15 =", d15)
+
+    # mm-dd-yyyyy
+    d16 = today.strftime("%m-%d-%Y")
+    #print("d16 =", d16)
+
+
+    if(d2 in day or d3 in day or d4 in day or d5 in day or d6 in day or d7 in day or d8 in day or d9 in day or d10 in day or d11 in day or d12 in day or d13 in day or d14 in day or d15 in day or d16 in day):
         return True, str(date.today().strftime("%Y-%m-%d"))
 
     return False, str(date.today().strftime("%Y-%m-%d"))
@@ -72,6 +93,11 @@ def validateday(day):
 #d9 = March 11 | 2021
 #d10 = 03.8.21 
 #d11 = March 9th, 2021| 
+#d12 = 10 Mar / 21
+#d13 = Mar 3, 2023
+#d14 = 2023.11.03
+#d15 = Mar 03, 2023
+#d16 = 12-27-2023
 
 
 #def main():

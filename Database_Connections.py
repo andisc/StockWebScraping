@@ -5,8 +5,8 @@ from pathlib import Path
 
 
 def get_DB_Connection():
-    #path = '../CatalystRepository/db.sqlite3'
-    path = '../CatalystRepository/CatalystRepository/db.sqlite3'
+    path = '../CatalystRepository/db.sqlite3'
+    #path = '../CatalystRepository/CatalystRepository/db.sqlite3'
     return path
 
 
@@ -85,10 +85,6 @@ def verify_article_existance(i_ticker, i_description, i_today_date):
 
 
 def Insert_ProcessingControl():
-    #database = r"C:\sqlite\db\pythonsqlite.db"
-    #/Users/andregama/Documents/WebScraping/TESTE
-
-    #NOW = str(datetime.now())
     NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
@@ -100,7 +96,7 @@ def Insert_ProcessingControl():
 
         count = cursor.execute(sqlite_insert_query)
         sqliteConnection.commit()
-        print("Record inserted successfully into Processing_Control table ", cursor.rowcount)
+        #print("Record inserted successfully into Processing_Control table ", cursor.rowcount)
         cursor.close()
 
         max_id_Control = select_max_Processing_Control()
@@ -114,10 +110,6 @@ def Insert_ProcessingControl():
 
 
 def Update_ProcessingControl(id_control):
-    #database = r"C:\sqlite\db\pythonsqlite.db"
-    #/Users/andregama/Documents/WebScraping/TESTE
-
-    #NOW = str(datetime.now())
     NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
@@ -129,7 +121,7 @@ def Update_ProcessingControl(id_control):
 
         count = cursor.execute(sqlite_insert_query)
         sqliteConnection.commit()
-        print("Record updated successfully into Processing_Control table ", cursor.rowcount)
+        #print("Record updated successfully into Processing_Control table ", cursor.rowcount)
         cursor.close()
 
 
@@ -162,8 +154,6 @@ def select_max_Processing_Control():
 
 
 def Insert_Logging(id_control, state, message):
-
-    #NOW = str(datetime.now())
     NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
@@ -175,7 +165,7 @@ def Insert_Logging(id_control, state, message):
 
         count = cursor.execute(sqlite_insert_query)
         sqliteConnection.commit()
-        print("Record inserted successfully into Logging table ", cursor.rowcount)
+        #print("Record inserted successfully into Logging table ", cursor.rowcount)
         cursor.close()
 
 
@@ -188,10 +178,6 @@ def Insert_Logging(id_control, state, message):
 
 
 def Update_StockData(i_ticker, i_lastPrice, i_lastVolume):
-    #database = r"C:\sqlite\db\pythonsqlite.db"
-    #/Users/andregama/Documents/WebScraping/TESTE
-
-    #NOW = str(datetime.now())
     NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
@@ -202,7 +188,7 @@ def Update_StockData(i_ticker, i_lastPrice, i_lastVolume):
 
         count = cursor.execute(sqlite_update_query)
         sqliteConnection.commit()
-        print("Record updated successfully into Stocks table ", cursor.rowcount)
+        #print("Record updated successfully into Stocks table ", cursor.rowcount)
         cursor.close()
 
 
@@ -244,7 +230,7 @@ def delete_PreMarketData():
 
         count = cursor.execute(sqlite_delete_query)
         sqliteConnection.commit()
-        print("Record deleted successfully into PreMarketStocks table ", cursor.rowcount)
+        #print("Record deleted successfully into PreMarketStocks table ", cursor.rowcount)
         cursor.close()
 
     except sqlite3.Error as error:
@@ -255,8 +241,6 @@ def delete_PreMarketData():
 
 
 def Insert_PreMarketData(i_ticker, i_tickerName, i_Price, i_growPrice, i_growPriceSinal, i_growPricePercentage):
-    
-    #NOW = str(datetime.now())
     NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
@@ -268,7 +252,7 @@ def Insert_PreMarketData(i_ticker, i_tickerName, i_Price, i_growPrice, i_growPri
 
         count = cursor.execute(sqlite_insert_query)
         sqliteConnection.commit()
-        print("Record inserted successfully into PreMarketStocks table ", cursor.rowcount)
+        #print("Record inserted successfully into PreMarketStocks table ", cursor.rowcount)
         cursor.close()
 
 
@@ -282,8 +266,6 @@ def Insert_PreMarketData(i_ticker, i_tickerName, i_Price, i_growPrice, i_growPri
 
 
 def Update_PreMarketData(i_ticker, i_tickerName, i_Price, i_growPrice, i_growPriceSinal, i_growPricePercentage):
-
-    #NOW = str(datetime.now())
     NOW = str(datetime.now(pytz.timezone('US/Eastern')))
 
     try:
@@ -295,7 +277,7 @@ def Update_PreMarketData(i_ticker, i_tickerName, i_Price, i_growPrice, i_growPri
 
         count = cursor.execute(sqlite_insert_query)
         sqliteConnection.commit()
-        print("Record updated successfully into PreMarketStocks table ", cursor.rowcount)
+        #print("Record updated successfully into PreMarketStocks table ", cursor.rowcount)
         cursor.close()
 
         if sqliteConnection:

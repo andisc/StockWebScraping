@@ -1,7 +1,7 @@
-import requests
-from lxml import html
+from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import os
+import gzip
 
 from datetime import date, datetime
 
@@ -10,17 +10,14 @@ from Database_Connections import InsertData, Insert_Logging
 
 
 def main(id_control):
-    print("Entra copy")
-    #database = r"C:\sqlite\db\pythonsqlite.db"
-    #/Users/andregama/Documents/WebScraping/TESTE
 
     try:
         url = 'https://investor.aclaristx.com/press-releases' 
 
-        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-        result = requests.get(url, headers=headers)
+        
+        result = requests.get(url, headers=headers, timeout=3)
         #print(result.content.decode())
-        html_content = result.content.decode()
+        html_content = html_bytes.decode('utf-8')
         soup = BeautifulSoup(html_content, 'html.parser')
         #print(soup)
 
